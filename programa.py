@@ -12,6 +12,13 @@ pygame.display.set_caption('Jogo do Pedro, Nicolas e Eduardo')
 game = True
 
 # ----- Personagesns e objetos
+traveEsquerda = pygame.image.load("traveEsquerda.png")
+traveEsquerda = pygame.transform.scale(traveEsquerda, (100,200))
+traveEsquerda.set_colorkey((255,255,255))
+
+traveDireita = pygame.image.load("traveDireita.png")
+traveDireita = pygame.transform.scale(traveDireita, (100,200))
+traveDireita.set_colorkey((255,255,255))
 
 bola = pygame.image.load("bola.png")
 bola = pygame.transform.scale(bola, (90,100))
@@ -63,10 +70,8 @@ while game:
     
     # ----- Gera saídas
     window.fill((80, 180, 80))  # Preenche com a cor de fundo
-    window.blit(jogaArgentina, (0, 0))   #Coloca a imagem
+    window.blit(traveEsquerda, (0, 0))   #Coloca a imagem
     
-    # ----- Atualiza estado do,  jogo
-    pygame.display.update()  # Mostra o novo frame para o jogador
 
-# ===== Finalização =====
-pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+    pygame.display.update()
+pygame.quit()
