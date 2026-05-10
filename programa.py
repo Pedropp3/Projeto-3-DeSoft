@@ -63,7 +63,7 @@ while game:
     
     # ----- Gera saídas
     window.fill((80, 180, 80))  # Preenche com a cor de fundo
-    window.blit(bola, (0, 0))   #Coloca a imagem
+    window.blit(jogaArgentina, (0, 0))   #Coloca a imagem
     
     # ----- Atualiza estado do,  jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
