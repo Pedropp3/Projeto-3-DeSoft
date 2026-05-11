@@ -2,6 +2,7 @@
 # ----- Importa e inicia pacotes
 import pygame
 
+
 pygame.init()
 
 # ----- Gera tela principal
@@ -83,11 +84,16 @@ bandeiraInglaterra = pygame.transform.scale(bandeiraInglaterra,tamanho_bandeira)
 bandeiraPortugal = pygame.image.load("bandeiraPortugal.png")
 bandeiraPortugal = pygame.transform.scale(bandeiraPortugal,tamanho_bandeira)
 
+chaves = pygame.image.load("chaves.png")
+chaves = pygame.transform.scale(chaves,(600,300))
 
 times = [["Brasil", jogaBrasil, bandeiraBrasil],["França", jogaFranca, bandeiraFranca],["Alemanha", jogaAlemanha, bandeiraAlemanha],["Espanha", jogaEspanha, bandeiraEspanha],["Croácia", jogaCroacia, bandeiraCroacia],["Argentina", jogaArgentina, bandeiraArgentina],["Inglaterra", jogaInglaterra, bandeiraInglaterra],["Portugal", jogaPortugal, bandeiraPortugal]]
 time_escolhido = 0
 jogador_escolhido = times[time_escolhido][1]
 tela_atual = "selecao"
+
+
+confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
 # ===== Loop principal =====
 
 while game:
@@ -97,6 +103,12 @@ while game:
         if event.type == pygame.QUIT:
             game = False
         if event.type == pygame.KEYDOWN:
+            if tela_atual == "chave":
+                window.blit(chaves,(0,0))
+                if event.key == pygame.K_SPACE:
+                    
+                    tela_atual = "jogo"
+
             if tela_atual == "selecao":
                 if event.key == pygame.K_RIGHT:
                     time_escolhido = time_escolhido+1
@@ -108,7 +120,9 @@ while game:
                         time_escolhido = 7
                 elif event.key == pygame.K_RETURN:
                     jogador_escolhido = times[time_escolhido][1]
-                    tela_atual = "jogo"
+                    tela_atual = "chave"
+            
+            
         
     # ----- Gera saídas
 
@@ -131,6 +145,23 @@ while game:
         window.blit(bandeira_time, (200, 120))
         window.blit(imagem_time, (400, 10))
 
+
+
+
+
+    if tela_atual == "jogo":
+        window.fill((80, 180, 80))
+
+        # campo
+        
+        # traves
+        window.blit(traveEsquerda, (-35, 80))
+        window.blit(traveDireita, (535, 80))
+
+        # jogadores e bola
+        
+        #window.blit(oponente, (430, 170))
+        window.blit(bola, (285, 190))
 
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
