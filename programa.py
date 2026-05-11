@@ -84,18 +84,56 @@ bandeiraPortugal = pygame.image.load("bandeiraPortugal.png")
 bandeiraPortugal = pygame.transform.scale(bandeiraPortugal,tamanho_bandeira)
 
 
+times = [["Brasil", jogaBrasil, bandeiraBrasil],["França", jogaFranca, bandeiraFranca],["Alemanha", jogaAlemanha, bandeiraAlemanha],["Espanha", jogaEspanha, bandeiraEspanha],["Croácia", jogaCroacia, bandeiraCroacia],["Argentina", jogaArgentina, bandeiraArgentina],["Inglaterra", jogaInglaterra, bandeiraInglaterra],["Portugal", jogaPortugal, bandeiraPortugal]]
+time_escolhido = 0
+jogador_escolhido = times[time_escolhido][1]
+tela_atual = "selecao"
 # ===== Loop principal =====
+
 while game:
-    
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
         if event.type == pygame.QUIT:
             game = False
-    
+        if event.type == pygame.KEYDOWN:
+            if tela_atual == "selecao":
+                if event.key == pygame.K_RIGHT:
+                    time_escolhido = time_escolhido+1
+                    if time_escolhido >= len(times):
+                        time_escolhido = 0
+                elif event.key == pygame.K_LEFT:
+                    time_escolhido = time_escolhido - 1
+                    if time_escolhido < 0:
+                        time_escolhido = 7
+                elif event.key == pygame.K_RETURN:
+                    jogador_escolhido = times[time_escolhido][1]
+                    tela_atual = "jogo"
+        
     # ----- Gera saídas
-    window.fill((80, 180, 80))  # Preenche com a cor de fundo
-    window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
+
+    if tela_atual == "selecao":
+        window.fill((0,255,0))
+        fonte = pygame.font.SysFont(None, 30)
+
+        nome_time = times[time_escolhido][0]
+        imagem_time = times[time_escolhido][1]
+        bandeira_time = times[time_escolhido][2]
+
+        texto = fonte.render("Escolha seu time", True, (255, 255, 255))
+        instrucao = fonte.render("Use as setas e aperte ENTER", True, (255, 255, 255))
+        nome = fonte.render(nome_time, True, (255, 255, 255))
+
+        window.blit(texto, (210, 20))
+        window.blit(instrucao, (155, 55))
+        window.blit(nome, (260, 90))
+
+        window.blit(bandeira_time, (200, 120))
+        window.blit(imagem_time, (250, 80))
+
+
+    #window.fill((80, 180, 80))  # Preenche com a cor de fundo
+    #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
     
 
     pygame.display.update()
