@@ -129,7 +129,7 @@ while game:
         window.blit(nome, (260, 90))
 
         window.blit(bandeira_time, (200, 120))
-        window.blit(imagem_time, (250, 80))
+        window.blit(imagem_time, (400, 10))
 
 
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
