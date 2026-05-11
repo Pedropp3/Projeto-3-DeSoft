@@ -57,6 +57,31 @@ jogaPortugal = pygame.image.load("jogaPortugal.png")
 jogaPortugal = pygame.transform.scale(jogaPortugal, tamanho_personagens)
 jogaPortugal.set_colorkey((255,255,255))      #tira o fundo branco
 
+tamanho_bandeira = [200,100]
+
+bandeiraAlemanha = pygame.image.load("bandeiraAlemanha.png")
+bandeiraAlemanha = pygame.transform.scale(bandeiraAlemanha,tamanho_bandeira)
+
+bandeiraBrasil = pygame.image.load("bandeiraBrasil.png")
+bandeiraBrasil = pygame.transform.scale(bandeiraBrasil,tamanho_bandeira)
+
+bandeiraArgentina = pygame.image.load("bandeiraArgentina.png")
+bandeiraArgentina = pygame.transform.scale(bandeiraArgentina,tamanho_bandeira)
+
+bandeiraCroacia = pygame.image.load("bandeiraCroacia.png")
+bandeiraCroacia = pygame.transform.scale(bandeiraCroacia,tamanho_bandeira)
+
+bandeiraEspanha = pygame.image.load("bandeiraEspanha.png")
+bandeiraEspanha = pygame.transform.scale(bandeiraEspanha,tamanho_bandeira)
+
+bandeiraFranca = pygame.image.load("bandeiraFranca.png")
+bandeiraFranca = pygame.transform.scale(bandeiraFranca,tamanho_bandeira)
+
+bandeiraInglaterra = pygame.image.load("bandeiraInglaterra.png")
+bandeiraInglaterra = pygame.transform.scale(bandeiraInglaterra,tamanho_bandeira)
+
+bandeiraPortugal = pygame.image.load("bandeiraPortugal.png")
+bandeiraPortugal = pygame.transform.scale(bandeiraPortugal,tamanho_bandeira)
 
 
 # ===== Loop principal =====
@@ -70,7 +95,7 @@ while game:
     
     # ----- Gera saídas
     window.fill((80, 180, 80))  # Preenche com a cor de fundo
-    window.blit(traveEsquerda, (0, 0))   #Coloca a imagem
+    window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
     
 
     pygame.display.update()
