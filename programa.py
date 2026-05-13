@@ -152,13 +152,20 @@ while game:
             if tela_atual == "jogo":
                 
                 if event.key == pygame.K_LEFT:
-                    x_jogador = x_jogador - velocidade
+                    velocidade =   velocidade - 5
                 elif event.key == pygame.K_RIGHT:
-                    x_jogador = x_jogador + velocidade
+                    velocidade = velocidade + 5
                 if event.key == pygame.K_SPACE:
                     if no_chao:
                         vel_y_jogador = -10
                         no_chao = False
+        
+        if event.type == pygame.KEYUP:
+            if tela_atual == "jogo":
+                if event.key == pygame.K_LEFT:
+                    velocidade = - 5
+                elif event.key == pygame.K_RIGHT:
+                    velocidade = + 5
                     
 
             
@@ -198,6 +205,7 @@ while game:
             y_jogador = 160
             vel_y_jogador = 0
             no_chao = True
+        x_jogador = x_jogador + velocidade
         # campo
         window.blit(campo,(0,0))
         #menu
