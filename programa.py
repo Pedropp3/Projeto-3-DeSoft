@@ -38,34 +38,42 @@ tamanho_personagens = [300,300]
 jogaBrasil = pygame.image.load("jogaBrasil.png")
 jogaBrasil = pygame.transform.scale(jogaBrasil, tamanho_personagens)
 jogaBrasil.set_colorkey((255,255,255))      #tira o fundo branco
+jogaBrasil = jogaBrasil.convert_alpha()
 
 jogaFranca = pygame.image.load("jogaFranca.png")
 jogaFranca = pygame.transform.scale(jogaFranca, tamanho_personagens)
 jogaFranca.set_colorkey((255,255,255))      #tira o fundo branco
+jogaFranca = jogaFranca.convert_alpha()
 
 jogaAlemanha = pygame.image.load("jogaAlemanha.png")
 jogaAlemanha = pygame.transform.scale(jogaAlemanha, tamanho_personagens)
 jogaAlemanha.set_colorkey((255,255,255))      #tira o fundo branco
+jogaAlemanha = jogaAlemanha.convert_alpha()
 
 jogaEspanha = pygame.image.load("jogaEspanha.png")
 jogaEspanha = pygame.transform.scale(jogaEspanha, tamanho_personagens)
 jogaEspanha.set_colorkey((255,255,255))      #tira o fundo branco
+jogaEspanha = jogaEspanha.convert_alpha()
 
 jogaCroacia = pygame.image.load("jogaCroacia.png")
 jogaCroacia = pygame.transform.scale(jogaCroacia, tamanho_personagens)
 jogaCroacia.set_colorkey((255,255,255))      #tira o fundo branco
+jogaCroacia = jogaCroacia.convert_alpha()
 
 jogaArgentina = pygame.image.load("jogaArgentina.png")
 jogaArgentina = pygame.transform.scale(jogaArgentina, tamanho_personagens)
 jogaArgentina.set_colorkey((255,255,255))      #tira o fundo branco
+jogaArgentina = jogaArgentina.convert_alpha()
 
 jogaInglaterra = pygame.image.load("jogaInglaterra.png")
 jogaInglaterra = pygame.transform.scale(jogaInglaterra, tamanho_personagens)
 jogaInglaterra.set_colorkey((255,255,255))      #tira o fundo branco
+jogaInglaterra = jogaInglaterra.convert_alpha()
 
 jogaPortugal = pygame.image.load("jogaPortugal.png")
 jogaPortugal = pygame.transform.scale(jogaPortugal, tamanho_personagens)
 jogaPortugal.set_colorkey((255,255,255))      #tira o fundo branco
+jogaPortugal = jogaPortugal.convert_alpha()
 
 tamanho_bandeira = [200,100]
 
@@ -105,6 +113,11 @@ tela_atual = "selecao"
 confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
 # ===== Loop principal =====
 
+#posicao do jogador e movimentacao
+
+x_jogador = 50
+y_jogador = 160
+velocidade = 5
 while game:
     # ----- Trata eventos
     for event in pygame.event.get():
@@ -127,8 +140,20 @@ while game:
             if tela_atual == "chave":
                 window.blit(chaves,(0,0))
                 if event.key == pygame.K_SPACE:
-                    
+                    if times[time_escolhido][0] != "França":
+                        adversario_escolhido = jogaFranca
+                    else:
+                        adversario_escolhido = jogaAlemanha
                     tela_atual = "jogo"
+            if tela_atual == "jogo":
+                if event.key == pygame.K_UP:
+                    y_jogador = y_jogador - velocidade
+                elif event.key == pygame.K_DOWN:
+                    y_jogador = y_jogador + velocidade
+                elif event.key == pygame.K_LEFT:
+                    x_jogador = x_jogador - velocidade
+                elif event.key == pygame.K_RIGHT:
+                    x_jogador = x_jogador + velocidade
 
             
             
@@ -168,8 +193,9 @@ while game:
         window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
 
         # jogadores e bola
-        jogaFranca = pygame.transform.scale(jogaFranca, (60,60))
-        window.blit(jogaFranca,(50,160))
+        jogador_escolhido = pygame.transform.scale(jogador_escolhido, (60,60))
+        
+        window.blit(jogador_escolhido, (x_jogador, y_jogador))
         #window.blit(oponente, (430, 170))
         window.blit(bola, (285, 190))
 
