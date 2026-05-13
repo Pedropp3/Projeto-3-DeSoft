@@ -15,9 +15,11 @@ game = True
 # ----- Personagesns e objetos
 
 engrenagem_menu = pygame.image.load("engrenagem.png").convert_alpha()
-engrenagem_menu = pygame.transform.scale(engrenagem_menu, (100,100))
+engrenagem_menu = pygame.transform.scale(engrenagem_menu, (50,50))
 engrenagem_menu.set_colorkey((255,255,255))
 
+campo = pygame.image.load("campo.png")
+campo = pygame.transform.scale(campo,(600,300))
 
 
 traveEsquerda = pygame.image.load("traveEsquerda.png")
@@ -29,7 +31,7 @@ traveDireita = pygame.transform.scale(traveDireita, (100,200))
 traveDireita.set_colorkey((255,255,255))
 
 bola = pygame.image.load("bola.png")
-bola = pygame.transform.scale(bola, (90,100))
+bola = pygame.transform.scale(bola, (20,25))
 bola.set_colorkey((255,255,255))
 
 tamanho_personagens = [300,300]
@@ -158,17 +160,16 @@ while game:
 
 
     if tela_atual == "jogo":
-        window.fill((80, 180, 80))
+        
+        
+        # campo
+        window.blit(campo,(0,0))
         #menu
         window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
-        # campo
-        
-        # traves
-        window.blit(traveEsquerda, (-35, 80))
-        window.blit(traveDireita, (535, 80))
 
         # jogadores e bola
-        
+        jogaFranca = pygame.transform.scale(jogaFranca, (60,60))
+        window.blit(jogaFranca,(50,160))
         #window.blit(oponente, (430, 170))
         window.blit(bola, (285, 190))
 
