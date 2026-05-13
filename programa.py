@@ -148,6 +148,7 @@ while game:
                     else:
                         adversario_escolhido = jogaAlemanha
                     tela_atual = "jogo"
+            
             if tela_atual == "jogo":
                 
                 if event.key == pygame.K_LEFT:
