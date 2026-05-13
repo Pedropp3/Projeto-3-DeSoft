@@ -13,6 +13,13 @@ pygame.display.set_caption('Jogo do Pedro, Nicolas e Eduardo')
 game = True
 
 # ----- Personagesns e objetos
+
+engrenagem_menu = pygame.image.load("engrenagem.png").convert_alpha()
+engrenagem_menu = pygame.transform.scale(engrenagem_menu, (100,100))
+engrenagem_menu.set_colorkey((255,255,255))
+
+
+
 traveEsquerda = pygame.image.load("traveEsquerda.png")
 traveEsquerda = pygame.transform.scale(traveEsquerda, (100,200))
 traveEsquerda.set_colorkey((255,255,255))
@@ -103,12 +110,6 @@ while game:
         if event.type == pygame.QUIT:
             game = False
         if event.type == pygame.KEYDOWN:
-            if tela_atual == "chave":
-                window.blit(chaves,(0,0))
-                if event.key == pygame.K_SPACE:
-                    
-                    tela_atual = "jogo"
-
             if tela_atual == "selecao":
                 if event.key == pygame.K_RIGHT:
                     time_escolhido = time_escolhido+1
@@ -121,6 +122,13 @@ while game:
                 elif event.key == pygame.K_RETURN:
                     jogador_escolhido = times[time_escolhido][1]
                     tela_atual = "chave"
+            if tela_atual == "chave":
+                window.blit(chaves,(0,0))
+                if event.key == pygame.K_SPACE:
+                    
+                    tela_atual = "jogo"
+
+            
             
             
         
@@ -151,7 +159,8 @@ while game:
 
     if tela_atual == "jogo":
         window.fill((80, 180, 80))
-
+        #menu
+        window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
         # campo
         
         # traves
@@ -166,6 +175,6 @@ while game:
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
     
-
+    
     pygame.display.update()
 pygame.quit()
