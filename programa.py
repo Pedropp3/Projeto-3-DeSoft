@@ -118,6 +118,9 @@ confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Cr
 x_jogador = 50
 y_jogador = 160
 velocidade = 5
+vel_y_jogador = 0
+gravidade = 1
+no_chao = True
 while game:
     # ----- Trata eventos
     for event in pygame.event.get():
@@ -146,14 +149,16 @@ while game:
                         adversario_escolhido = jogaAlemanha
                     tela_atual = "jogo"
             if tela_atual == "jogo":
-                if event.key == pygame.K_UP:
-                    y_jogador = y_jogador - velocidade
-                elif event.key == pygame.K_DOWN:
-                    y_jogador = y_jogador + velocidade
-                elif event.key == pygame.K_LEFT:
+                
+                if event.key == pygame.K_LEFT:
                     x_jogador = x_jogador - velocidade
                 elif event.key == pygame.K_RIGHT:
                     x_jogador = x_jogador + velocidade
+                if event.key == pygame.K_SPACE:
+                    if no_chao:
+                        vel_y_jogador = -15
+                        no_chao = False
+                    
 
             
             
@@ -186,7 +191,12 @@ while game:
 
     if tela_atual == "jogo":
         
-        
+        y_jogador += vel_y_jogador
+        vel_y_jogador += gravidade
+        if y_jogador >= 160:
+            y_jogador = 160
+            vel_y_jogador = 0
+            no_chao = True
         # campo
         window.blit(campo,(0,0))
         #menu
