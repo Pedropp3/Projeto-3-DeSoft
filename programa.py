@@ -103,11 +103,7 @@ while game:
         if event.type == pygame.QUIT:
             game = False
         if event.type == pygame.KEYDOWN:
-            if tela_atual == "chave":
-                window.blit(chaves,(0,0))
-                if event.key == pygame.K_SPACE:
-                    
-                    tela_atual = "jogo"
+            
 
             if tela_atual == "selecao":
                 if event.key == pygame.K_RIGHT:
@@ -121,13 +117,18 @@ while game:
                 elif event.key == pygame.K_RETURN:
                     jogador_escolhido = times[time_escolhido][1]
                     tela_atual = "chave"
+            if tela_atual == "chave":
+                window.blit(chaves,(0,0))
+                if event.key == pygame.K_SPACE:
+                    
+                    tela_atual = "jogo"
             
             
         
     # ----- Gera saídas
 
     if tela_atual == "selecao":
-        window.fill((0,255,0))
+        window.fill((30,200,30))
         fonte = pygame.font.SysFont(None, 30)
 
         nome_time = times[time_escolhido][0]
