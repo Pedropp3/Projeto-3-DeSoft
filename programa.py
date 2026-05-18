@@ -120,6 +120,14 @@ y_jogador = 160
 velocidade = 5
 vel_y_jogador = 0
 no_chao = True
+
+bola_no_chao = False
+x_bola = 285
+y_bola = 50
+vel_x_bola = 0
+vel_y_bola = 0
+gravidade_bola = 0.05
+
 while game:
     # ----- Trata eventos
     for event in pygame.event.get():
@@ -198,7 +206,26 @@ while game:
 
 
     if tela_atual == "jogo":
+        
+        vel_y_bola += gravidade_bola
+        x_bola = x_bola + vel_x_bola
+        y_bola = y_bola + vel_y_bola
+        if abs(x_jogador - x_bola) <= 40 and abs(y_jogador - y_bola) <= 40:
+            vel_x_bola = 5   # empurra pra direita
+            vel_y_bola = -5  # levanta a bolabola += vel_x_bola
+        x_bola = x_bola + vel_x_bola
+        y_bola = y_bola + vel_y_bola
+
+        # chão
+        if y_bola >= 190:
+            y_bola = 190
+        if bola_no_chao == False and y_bola >= 190:
+            bola_no_chao = True
+            vel_y_bola = vel_y_bola * -0.8   # quica
+        
         if primeira == 1:
+            x_bola = 285
+            y_bola = 50
             x_jogador = 50
             y_jogador = 160
             vel_y_jogador = 0
@@ -227,7 +254,7 @@ while game:
         
         window.blit(jogador_escolhido, (x_jogador, y_jogador))
         #window.blit(oponente, (430, 170))
-        window.blit(bola, (285, 190))
+        window.blit(bola, (x_bola, y_bola))
 
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
