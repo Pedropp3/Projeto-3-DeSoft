@@ -113,7 +113,8 @@ tela_atual = "selecao"
 confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
 # ===== Loop principal =====
 
-#posicao do jogador e movimentacao
+#variaveis iniciais
+
 
 x_jogador = 50
 y_jogador = 160
@@ -128,6 +129,10 @@ vel_x_bola = 0
 vel_y_bola = 0
 gravidade_bola = 0.5
 tempo_bola_no_ar = 0
+
+contador_jogador = 0
+contador_oponente = 0
+
 clock = pygame.time.Clock()
 
 mostrar_gol = 0
@@ -151,7 +156,6 @@ while game:
                     jogador_escolhido = times[time_escolhido][1]
                     tela_atual = "chave"
             if tela_atual == "chave":
-                window.blit(chaves,(0,0))
                 if event.key == pygame.K_SPACE:
                     if times[time_escolhido][0] != "França":
                         adversario_escolhido = jogaFranca
@@ -184,7 +188,8 @@ while game:
             
         
     # ----- Gera saídas
-
+    if tela_atual == "chave":
+        window.blit(chaves,(0,0))
     if tela_atual == "selecao":
         window.fill((30,200,30))
         fonte = pygame.font.SysFont(None, 30)
@@ -209,8 +214,8 @@ while game:
 
 
     if tela_atual == "jogo":
-        
-        if x_bola >= 550:
+        fonte = pygame.font.SysFont(None, 80)
+        if x_bola >= 550 or x_bola <50:
             mostrar_gol = 1
         print(vel_y_bola)
         if vel_y_bola > 0:
@@ -273,20 +278,33 @@ while game:
 
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
-    
+        placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
         if mostrar_gol == 1:
-                fonte = pygame.font.SysFont(None, 80)
+                
                 texto = fonte.render("GOOOL!", True, (255, 255, 0))
                 window.blit(texto, (200, 100))
                 pygame.time.delay(500)
+                if x_bola > 300:
+                    contador_jogador += 1
+                else: 
+                    contador_oponente +=1
                 x_bola = 285
                 y_bola = 50
                 vel_x_bola = 0
                 
                 x_jogador = 50
                 y_jogador = 160
-                mostrar_gol = 0
                 
+                mostrar_gol = 0
+                placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
+        if contador_oponente == 3 or contador_jogador == 3:
+            if contador_jogador == 3:
+                tela_atual = "chave"
+            else:
+                window.fill((200,0,0))
+                placar_texto = fonte.render("PERDEU", True, (255,255,255))
+        
+        window.blit(placar_texto, (250, 10))
     clock.tick(60) #FPS
     pygame.display.update()
 pygame.quit()
