@@ -119,7 +119,6 @@ x_jogador = 50
 y_jogador = 160
 velocidade = 5
 vel_y_jogador = 0
-gravidade = 0.5
 no_chao = True
 while game:
     # ----- Trata eventos
@@ -158,7 +157,7 @@ while game:
                     velocidade = 0.08
                 if event.key == pygame.K_SPACE:
                     if no_chao:
-                        vel_y_jogador = -10
+                        vel_y_jogador = -20
                         no_chao = False
         
         if event.type == pygame.KEYUP:
@@ -203,12 +202,12 @@ while game:
             x_jogador = 50
             y_jogador = 160
             vel_y_jogador = 0
-            gravidade = 0.5
+            gravidade = 0.07
             no_chao = True
             primeira = 0
             velocidade = 0
         y_jogador += vel_y_jogador
-        vel_y_jogador += gravidade
+        vel_y_jogador = gravidade
         if y_jogador >= 160:
             y_jogador = 160
             vel_y_jogador = 0
