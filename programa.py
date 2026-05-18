@@ -211,14 +211,15 @@ while game:
         x_bola = x_bola + vel_x_bola
         y_bola = y_bola + vel_y_bola
         if abs(x_jogador - x_bola) <= 40 and abs(y_jogador - y_bola) <= 40:
-            vel_x_bola = 5   # empurra pra direita
-            vel_y_bola = -5  # levanta a bolabola += vel_x_bola
+            vel_x_bola = 0.05 #empurra pra direita
+            vel_y_bola = -0.05 #evanta a bolabola += vel_x_bola
         x_bola = x_bola + vel_x_bola
         y_bola = y_bola + vel_y_bola
 
         # chão
         if y_bola >= 190:
             y_bola = 190
+            vel_y_bola = vel_y_bola * -0.8  # quica
         if bola_no_chao == False and y_bola >= 190:
             bola_no_chao = True
             vel_y_bola = vel_y_bola * -0.8   # quica
