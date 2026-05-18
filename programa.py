@@ -148,13 +148,14 @@ while game:
                     else:
                         adversario_escolhido = jogaAlemanha
                     tela_atual = "jogo"
+                    primeira = 1
             
             if tela_atual == "jogo":
                 
                 if event.key == pygame.K_LEFT:
-                    velocidade =   velocidade - 5
+                    velocidade = - 0.08
                 elif event.key == pygame.K_RIGHT:
-                    velocidade = velocidade + 5
+                    velocidade = 0.08
                 if event.key == pygame.K_SPACE:
                     if no_chao:
                         vel_y_jogador = -10
@@ -163,9 +164,9 @@ while game:
         if event.type == pygame.KEYUP:
             if tela_atual == "jogo":
                 if event.key == pygame.K_LEFT:
-                    velocidade = - 5
+                    velocidade = 0
                 elif event.key == pygame.K_RIGHT:
-                    velocidade = + 5
+                    velocidade =  0
                     
 
             
@@ -198,13 +199,24 @@ while game:
 
 
     if tela_atual == "jogo":
-        
+        if primeira == 1:
+            x_jogador = 50
+            y_jogador = 160
+            vel_y_jogador = 0
+            gravidade = 0.5
+            no_chao = True
+            primeira = 0
+            velocidade = 0
         y_jogador += vel_y_jogador
         vel_y_jogador += gravidade
         if y_jogador >= 160:
             y_jogador = 160
             vel_y_jogador = 0
             no_chao = True
+        if x_jogador <= 0:
+            x_jogador = 0
+        if x_jogador >= 540:
+            x_jogador = 540
         x_jogador = x_jogador + velocidade
         # campo
         window.blit(campo,(0,0))
