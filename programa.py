@@ -128,6 +128,8 @@ vel_x_bola = 0
 vel_y_bola = 0
 gravidade_bola = 0.05
 
+
+clock = pygame.time.Clock()
 while game:
     # ----- Trata eventos
     for event in pygame.event.get():
@@ -207,22 +209,19 @@ while game:
 
     if tela_atual == "jogo":
         
-        vel_y_bola += gravidade_bola
+        vel_y_bola = gravidade_bola
         x_bola = x_bola + vel_x_bola
         y_bola = y_bola + vel_y_bola
         if abs(x_jogador - x_bola) <= 40 and abs(y_jogador - y_bola) <= 40:
-            vel_x_bola = 0.05 #empurra pra direita
-            vel_y_bola = -0.05 #evanta a bolabola += vel_x_bola
-        x_bola = x_bola + vel_x_bola
-        y_bola = y_bola + vel_y_bola
+            vel_x_bola = 0.08 #empurra pra direita
+            vel_y_bola = -0.5 #evanta a bolabola += vel_x_bola
+            
 
         # chão
-        if y_bola >= 190:
+        if y_bola > 190:
             y_bola = 190
-            vel_y_bola = vel_y_bola * -0.8  # quica
-        if bola_no_chao == False and y_bola >= 190:
-            bola_no_chao = True
-            vel_y_bola = vel_y_bola * -0.8   # quica
+            vel_y_bola =  -1  # quica
+        
         
         if primeira == 1:
             x_bola = 285
@@ -261,5 +260,6 @@ while game:
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
     
     
+   
     pygame.display.update()
 pygame.quit()
