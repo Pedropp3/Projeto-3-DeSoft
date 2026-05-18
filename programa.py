@@ -126,10 +126,11 @@ x_bola = 285
 y_bola = 50
 vel_x_bola = 0
 vel_y_bola = 0
-gravidade_bola = 0.05
-
-
+gravidade_bola = 0.5
+tempo_bola_no_ar = 0
 clock = pygame.time.Clock()
+
+mostrar_gol = 0
 while game:
     # ----- Trata eventos
     for event in pygame.event.get():
@@ -162,9 +163,9 @@ while game:
             if tela_atual == "jogo":
                 
                 if event.key == pygame.K_LEFT:
-                    velocidade = - 0.08
+                    velocidade = - 3
                 elif event.key == pygame.K_RIGHT:
-                    velocidade = 0.08
+                    velocidade = 3
                 if event.key == pygame.K_SPACE:
                     if no_chao:
                         vel_y_jogador = -20
@@ -209,18 +210,32 @@ while game:
 
     if tela_atual == "jogo":
         
-        vel_y_bola = gravidade_bola
+        if x_bola >= 550:
+            mostrar_gol = 1
+        print(vel_y_bola)
+        if vel_y_bola > 0:
+            tempo_bola_no_ar += 1
+        vel_y_bola += gravidade_bola
         x_bola = x_bola + vel_x_bola
         y_bola = y_bola + vel_y_bola
-        if abs(x_jogador - x_bola) <= 40 and abs(y_jogador - y_bola) <= 40:
-            vel_x_bola = 0.08 #empurra pra direita
-            vel_y_bola = -0.5 #evanta a bolabola += vel_x_bola
+      
+        if abs(x_jogador - x_bola) <= 30 and abs(y_jogador - y_bola) <= 40:
+            tempo_bola_no_ar = 4
+            vel_x_bola = velocidade*1.5 #empurra pra direita
+            vel_y_bola = -1 #levanta a bolabola += vel_x_bola
             
 
         # chão
-        if y_bola > 190:
+        if y_bola >= 190:
             y_bola = 190
-            vel_y_bola =  -1  # quica
+            bola_no_chao = True
+        if bola_no_chao:
+            vel_y_bola = - tempo_bola_no_ar * gravidade_bola*0.9 #quica
+
+            
+            tempo_bola_no_ar = 0
+            bola_no_chao = False
+        
         
         
         if primeira == 1:
@@ -229,7 +244,7 @@ while game:
             x_jogador = 50
             y_jogador = 160
             vel_y_jogador = 0
-            gravidade = 0.07
+            gravidade = 0.5
             no_chao = True
             primeira = 0
             velocidade = 0
@@ -259,7 +274,19 @@ while game:
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
     
-    
-   
+        if mostrar_gol == 1:
+                fonte = pygame.font.SysFont(None, 80)
+                texto = fonte.render("GOOOL!", True, (255, 255, 0))
+                window.blit(texto, (200, 100))
+                pygame.time.delay(500)
+                x_bola = 285
+                y_bola = 50
+                vel_x_bola = 0
+                
+                x_jogador = 50
+                y_jogador = 160
+                mostrar_gol = 0
+                
+    clock.tick(60) #FPS
     pygame.display.update()
 pygame.quit()
