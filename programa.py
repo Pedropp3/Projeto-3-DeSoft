@@ -268,6 +268,14 @@ while game:
                 nome = semifinalistas[i]
                 bandeira = pygame.transform.scale(bandeiras_times[nome], (60, 30))
                 window.blit(bandeira, pos_semis[i])
+            if rodada_chaves >= 3:
+                if time_jogador in ["Brasil","Argentina"]:
+                    window.blit(bandeira_jogador, (225,17))
+                    window.blit(bandeiraFranca, (310,17))
+                else:
+                    window.blit(bandeiraBrasil, (225,17))
+                    window.blit(bandeira_jogador, (310,17))
+                
             
         
 
