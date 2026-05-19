@@ -208,17 +208,23 @@ while game:
             (455, 260),  # Alemanha
             (535, 260),  # Espanha
         ]
+        bandeiraBrasil = pygame.transform.scale(bandeiraBrasil, (60,30))
+        bandeiraPortugal = pygame.transform.scale(bandeiraPortugal, (60,30))
+        bandeiraArgentina = pygame.transform.scale(bandeiraArgentina, (60,30))
+        bandeiraInglaterra = pygame.transform.scale(bandeiraInglaterra, (60,30))
+        bandeiraFranca = pygame.transform.scale(bandeiraFranca, (60,30))
+        bandeiraCroacia = pygame.transform.scale(bandeiraCroacia, (60,30))
+        bandeiraAlemanha = pygame.transform.scale(bandeiraAlemanha, (60,30))
+        bandeiraEspanha = pygame.transform.scale(bandeiraEspanha, (60,30))
 
-        nomes = [
-            "Brasil", "Portugal",
-            "Argentina", "Inglaterra",
-            "França", "Croácia",
-            "Alemanha", "Espanha"
-        ]
+        bandeiras = [
+            bandeiraBrasil, bandeiraPortugal,
+            bandeiraArgentina, bandeiraInglaterra,
+            bandeiraFranca, bandeiraCroacia,
+            bandeiraAlemanha, bandeiraEspanha]
 
-        for i in range(len(nomes)):
-            texto = fonte.render(nomes[i], True, (0,0,0))
-            window.blit(texto, posicoes[i])
+        for i in range(len(bandeiras)):
+            window.blit(bandeiras[i], posicoes[i])
 
 
         
