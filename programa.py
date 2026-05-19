@@ -111,7 +111,7 @@ tela_atual = "selecao"
 
 
 confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
-rodada = 0
+rodada_chaves = 1
 # ===== Loop principal =====
 
 #variaveis iniciais
@@ -156,6 +156,7 @@ while game:
                 elif event.key == pygame.K_RETURN:
                     jogador_escolhido = times[time_escolhido][1]
                     tela_atual = "chave"
+                    
             if tela_atual == "chave":
                 if event.key == pygame.K_SPACE:
                     if times[time_escolhido][0] != "França":
@@ -190,6 +191,7 @@ while game:
         
     # ----- Gera saídas
     if tela_atual == "chave":
+        
         window.blit(chaves, (0, 0))
 
         fonte = pygame.font.SysFont(None, 20)
@@ -216,7 +218,20 @@ while game:
         bandeiraCroacia = pygame.transform.scale(bandeiraCroacia, (60,30))
         bandeiraAlemanha = pygame.transform.scale(bandeiraAlemanha, (60,30))
         bandeiraEspanha = pygame.transform.scale(bandeiraEspanha, (60,30))
+        
+        bandeiras_times = {
+            "Brasil": bandeiraBrasil,
+            "Portugal": bandeiraPortugal,
+            "Argentina": bandeiraArgentina,
+            "Inglaterra": bandeiraInglaterra,
+            "França": bandeiraFranca,
+            "Croácia": bandeiraCroacia,
+            "Alemanha": bandeiraAlemanha,
+            "Espanha": bandeiraEspanha}
+        bandeira_jogador = times[time_escolhido][2]
+        time_jogador = times[time_escolhido][0]
 
+        bandeira_jogador = pygame.transform.scale(bandeira_jogador, (60, 30)) 
         bandeiras = [
             bandeiraBrasil, bandeiraPortugal,
             bandeiraArgentina, bandeiraInglaterra,
@@ -225,6 +240,36 @@ while game:
 
         for i in range(len(bandeiras)):
             window.blit(bandeiras[i], posicoes[i])
+        if rodada_chaves >= 2:
+            time_jogador = times[time_escolhido][0]
+
+            semifinalistas = ["Brasil", "Argentina", "França", "Alemanha"]
+
+            if time_jogador in ["Brasil", "Portugal"]:
+                semifinalistas[0] = time_jogador
+
+            elif time_jogador in ["Argentina", "Inglaterra"]:
+                semifinalistas[1] = time_jogador
+
+            elif time_jogador in ["França", "Croácia"]:
+                semifinalistas[2] = time_jogador
+
+            elif time_jogador in ["Alemanha", "Espanha"]:
+                semifinalistas[3] = time_jogador
+
+            pos_semis = [
+                (50, 140),
+                (192, 140),
+                (348, 140),
+                (491, 140)
+            ]
+
+            for i in range(4):
+                nome = semifinalistas[i]
+                bandeira = pygame.transform.scale(bandeiras_times[nome], (60, 30))
+                window.blit(bandeira, pos_semis[i])
+            
+        
 
 
         
@@ -252,7 +297,7 @@ while game:
 
 
     if tela_atual == "jogo":
-        rodada = rodada + 1
+   
         fonte = pygame.font.SysFont(None, 80)
         if x_bola >= 550 or x_bola <50:
             mostrar_gol = 1
@@ -343,7 +388,9 @@ while game:
                 placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
         if contador_oponente == 3 or contador_jogador == 3:
             if contador_jogador == 3:
+                rodada_chaves = rodada_chaves + 1
                 tela_atual = "chave"
+                
             else:
                 window.fill((200,0,0))
                 placar_texto = fonte.render("PERDEU", True, (255,255,255))
