@@ -111,6 +111,7 @@ tela_atual = "selecao"
 
 
 confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
+rodada = 0
 # ===== Loop principal =====
 
 #variaveis iniciais
@@ -214,6 +215,7 @@ while game:
 
 
     if tela_atual == "jogo":
+        rodada = rodada + 1
         fonte = pygame.font.SysFont(None, 80)
         if x_bola >= 550 or x_bola <50:
             mostrar_gol = 1
@@ -244,6 +246,8 @@ while game:
         
         
         if primeira == 1:
+            contador_jogador = 0
+            contador_oponente = 0
             x_bola = 285
             y_bola = 50
             x_jogador = 50
@@ -265,7 +269,13 @@ while game:
             x_jogador = 540
         x_jogador = x_jogador + velocidade
         # campo
-        window.blit(campo,(0,0))
+        if rodada == 1:
+            window.blit(campo,(0,0))
+        #if rodada == 2:
+        #    window.blit
+        #if rodada == 3:
+        #    window.blit
+        
         #menu
         window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
 
