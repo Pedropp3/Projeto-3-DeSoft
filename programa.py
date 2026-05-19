@@ -196,25 +196,32 @@ while game:
 
         # posições baseadas na SUA imagem
         posicoes = [
-            (60, 55), (60, 105),
-            (60, 175), (60, 225),
-            (390, 55), (390, 105),
-            (390, 175), (390, 225)
+            (10, 260),   # Brasil
+            (85, 260),  # Portugal
+
+            (155, 260),  # Argentina
+            (230, 260),  # Inglaterra
+
+            (310, 260),  # França
+            (385, 260),  # Croácia
+
+            (455, 260),  # Alemanha
+            (535, 260),  # Espanha
         ]
 
-        times_chave = [
+        nomes = [
             "Brasil", "Portugal",
             "Argentina", "Inglaterra",
             "França", "Croácia",
             "Alemanha", "Espanha"
         ]
 
-        for i in range(len(times_chave)):
-            texto_time = fonte_chave.render(times_chave[i], True, (255, 255, 255))
-            window.blit(texto_time, posicoes[i])
+        for i in range(len(nomes)):
+            texto = fonte.render(nomes[i], True, (0,0,0))
+            window.blit(texto, posicoes[i])
 
-        instrucao = fonte_chave.render("Pressione ESPACO para jogar", True, (255, 255, 0))
-        window.blit(instrucao, (190, 270))
+
+        
     if tela_atual == "selecao":
         window.fill((30,200,30))
         fonte = pygame.font.SysFont(None, 30)
@@ -293,12 +300,9 @@ while game:
             x_jogador = 540
         x_jogador = x_jogador + velocidade
         # campo
-        if rodada == 1:
-            window.blit(campo,(0,0))
-        #if rodada == 2:
-        #    window.blit
-        #if rodada == 3:
-        #    window.blit
+        
+        window.blit(campo,(0,0))
+        
         
         #menu
         window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
