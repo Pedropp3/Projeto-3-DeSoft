@@ -191,6 +191,28 @@ while game:
     # ----- Gera saídas
     if tela_atual == "chave":
         window.blit(chaves,(0,0))
+        fonte_chave = pygame.font.SysFont(None, 24)
+
+        posicoes = [
+            (60, 55), (60, 105),
+            (60, 175), (60, 225),
+            (390, 55), (390, 105),
+            (390, 175), (390, 225)
+        ]
+
+        times_chave = [
+            "Brasil", "Portugal",
+            "Argentina", "Inglaterra",
+            "França", "Croácia",
+            "Alemanha", "Espanha"
+        ]
+
+        for i in range(len(times_chave)):
+            texto_time = fonte_chave.render(times_chave[i], True, (255, 255, 255))
+            window.blit(texto_time, posicoes[i])
+
+        instrucao = fonte_chave.render("Pressione ESPACO para jogar", True, (255, 255, 0))
+        window.blit(instrucao, (190, 270))
     if tela_atual == "selecao":
         window.fill((30,200,30))
         fonte = pygame.font.SysFont(None, 30)
