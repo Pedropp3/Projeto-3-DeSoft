@@ -128,7 +128,7 @@ x_bola = 285
 y_bola = 50
 vel_x_bola = 0
 vel_y_bola = 0
-gravidade_bola = 0.5
+gravidade_bola = 0.3
 tempo_bola_no_ar = 0
 
 contador_jogador = 0
@@ -343,7 +343,7 @@ while game:
             x_jogador = 50
             y_jogador = 160
             vel_y_jogador = 0
-            gravidade = 0.5
+            gravidade = 0.8
             no_chao = True
             primeira = 0
             velocidade = 0
