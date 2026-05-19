@@ -269,12 +269,8 @@ while game:
             x_jogador = 540
         x_jogador = x_jogador + velocidade
         # campo
-        if rodada == 1:
-            window.blit(campo,(0,0))
-        #if rodada == 2:
-        #    window.blit
-        #if rodada == 3:
-        #    window.blit
+       
+        window.blit(campo,(0,0))
         
         #menu
         window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
