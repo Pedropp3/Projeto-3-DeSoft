@@ -190,9 +190,11 @@ while game:
         
     # ----- Gera saídas
     if tela_atual == "chave":
-        window.blit(chaves,(0,0))
-        fonte_chave = pygame.font.SysFont(None, 24)
+        window.blit(chaves, (0, 0))
 
+        fonte = pygame.font.SysFont(None, 20)
+
+        # posições baseadas na SUA imagem
         posicoes = [
             (60, 55), (60, 105),
             (60, 175), (60, 225),
