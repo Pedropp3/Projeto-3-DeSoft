@@ -138,6 +138,8 @@ tempo_bola_no_ar = 0
 contador_jogador = 0
 contador_oponente = 0
 
+perdeu = 0
+
 clock = pygame.time.Clock()
 
 mostrar_gol = 0
@@ -307,8 +309,16 @@ while game:
 
 
 
-
+    if perdeu == 1:
+        pygame.time.delay(2000)
+        pygame.quit()
     if tela_atual == "jogo":
+        if rodada_chaves == 1:
+            vel_oponente = 1
+        elif rodada_chaves == 2:
+            vel_oponente = 1.5
+        elif rodada_chaves == 3:
+            vel_oponente = 2
         # descobrir confronto do jogador
         time_jogador_nome = times[time_escolhido][0]
 
@@ -324,8 +334,24 @@ while game:
             if time[0] == nome_adversario:
                 oponente = time[1]
         fonte = pygame.font.SysFont(None, 80)
-        if x_bola >= 550 or x_bola <50:
+
+
+        if x_bola >= 550 and y_bola > 130:
             mostrar_gol = 1
+
+        elif x_bola <50 and y_bola > 130:
+            mostrar_gol = 1
+            
+
+        if y_bola <=130 and x_bola >= 550:
+            vel_x_bola = -5
+            tempo_bola_no_ar = 0
+        elif y_bola <=130 and x_bola <= 50:
+            vel_x_bola = 5
+            tempo_bola_no_ar = 0
+
+
+
         print(vel_y_bola)
         if vel_y_bola > 0:
             tempo_bola_no_ar += 1
@@ -339,8 +365,13 @@ while game:
             x_oponente -= vel_oponente
         if abs(x_jogador - x_bola) <= 30 and abs(y_jogador - y_bola) <= 40:
             tempo_bola_no_ar = 4
-            vel_x_bola = velocidade*1.5 #empurra pra direita
-            vel_y_bola = -1 #levanta a bolabola += vel_x_bola
+            vel_x_bola = abs(velocidade*1.5) #empurra pra direita
+            vel_y_bola = -4 #levanta a bolabola += vel_x_bola
+        if abs(x_oponente - x_bola) <= 30 and abs(y_oponente - y_bola) <= 40:
+            vel_x_bola = -5
+            vel_y_bola = -4
+
+        
             
 
         # chão
@@ -430,7 +461,8 @@ while game:
             else:
                 window.fill((200,0,0))
                 placar_texto = fonte.render("PERDEU", True, (255,255,255))
-        
+                perdeu = 1
+            
         window.blit(placar_texto, (250, 10))
     clock.tick(60) #FPS
     pygame.display.update()
