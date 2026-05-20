@@ -123,6 +123,10 @@ velocidade = 5
 vel_y_jogador = 0
 no_chao = True
 
+x_oponente = 450
+y_oponente = 160
+vel_oponente = 2
+
 bola_no_chao = False
 x_bola = 285
 y_bola = 50
@@ -305,7 +309,20 @@ while game:
 
 
     if tela_atual == "jogo":
-   
+        # descobrir confronto do jogador
+        time_jogador_nome = times[time_escolhido][0]
+
+        for confronto in confrontos:
+            if time_jogador_nome in confronto:
+                if confronto[0] == time_jogador_nome:
+                    nome_adversario = confronto[1]
+                else:
+                    nome_adversario = confronto[0]
+
+        # pegar imagem do adversário
+        for time in times:
+            if time[0] == nome_adversario:
+                oponente = time[1]
         fonte = pygame.font.SysFont(None, 80)
         if x_bola >= 550 or x_bola <50:
             mostrar_gol = 1
@@ -315,7 +332,11 @@ while game:
         vel_y_bola += gravidade_bola
         x_bola = x_bola + vel_x_bola
         y_bola = y_bola + vel_y_bola
-      
+        # oponente segue a bola
+        if x_oponente < x_bola:
+            x_oponente += vel_oponente
+        elif x_oponente > x_bola:
+            x_oponente -= vel_oponente
         if abs(x_jogador - x_bola) <= 30 and abs(y_jogador - y_bola) <= 40:
             tempo_bola_no_ar = 4
             vel_x_bola = velocidade*1.5 #empurra pra direita
@@ -345,6 +366,9 @@ while game:
             vel_y_jogador = 0
             gravidade = 0.8
             no_chao = True
+            x_oponente = 450
+            y_oponente = 160
+
             primeira = 0
             velocidade = 0
         y_jogador += vel_y_jogador
@@ -372,7 +396,8 @@ while game:
         window.blit(jogador_escolhido, (x_jogador, y_jogador))
         #window.blit(oponente, (430, 170))
         window.blit(bola, (x_bola, y_bola))
-
+        adversario_escolhido = pygame.transform.scale(adversario_escolhido, (60,60))
+        window.blit(adversario_escolhido, (x_oponente, y_oponente))
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
         placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
@@ -391,6 +416,9 @@ while game:
                 
                 x_jogador = 50
                 y_jogador = 160
+
+                x_oponente = 450
+                y_oponente = 160
                 
                 mostrar_gol = 0
                 placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
