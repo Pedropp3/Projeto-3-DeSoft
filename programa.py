@@ -363,11 +363,11 @@ while game:
             x_oponente += vel_oponente
         elif x_oponente > x_bola:
             x_oponente -= vel_oponente
-        if abs(x_jogador - x_bola) <= 10 and abs(y_jogador - y_bola) <= 40:
+        if abs(x_jogador - x_bola) <= 30 and abs(y_jogador - y_bola) <= 10:
             tempo_bola_no_ar = 4
-            vel_x_bola = abs(velocidade*1.5) #empurra pra direita
+            vel_x_bola = 5 #empurra pra direita
             vel_y_bola = -4 #levanta a bolabola += vel_x_bola
-        if abs(x_oponente - x_bola) <= 10 and abs(y_oponente - y_bola) <= 40:
+        if abs(x_oponente - x_bola) <= 30 and abs(y_oponente - y_bola) <= 10:
             vel_x_bola = -5
             vel_y_bola = -4
 
