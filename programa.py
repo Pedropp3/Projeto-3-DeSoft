@@ -328,7 +328,7 @@ while game:
 
 
         
-    if tela_atual == "selecao":
+    if tela_atual == "selecao" and not menu_aberto:
         window.fill((30,200,30))
         fonte = pygame.font.SysFont(None, 30)
 
