@@ -140,12 +140,25 @@ contador_oponente = 0
 
 perdeu = 0
 
+menu_aberto = False
+volume = 0.5
+
+
 clock = pygame.time.Clock()
 
 mostrar_gol = 0
 while game:
     # ----- Trata eventos
     for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = pygame.mouse.get_pos()
+
+            if 0 <= mouse_pos[0] <= 50 and 0 <= mouse_pos[1] <= 50:
+                menu_aberto = not menu_aberto
+
+            
+
+
         # ----- Verifica consequências
         if event.type == pygame.QUIT:
             game = False
@@ -189,13 +202,41 @@ while game:
                     velocidade = 0
                 elif event.key == pygame.K_RIGHT:
                     velocidade =  0
-                    
+        
+
+
+        if menu_aberto and event.type == pygame.KEYDOWN:
+
+            if event.key == pygame.K_UP:
+                volume = min(1, volume + 0.1)
+
+            if event.key == pygame.K_DOWN:
+                volume = max(0, volume - 0.1)
+
+            if event.key == pygame.K_r:
+                # reiniciar jogo
+                x_jogador = 50
+                y_jogador = 160
+                x_oponente = 450
+                y_oponente = 160
+                x_bola = 285
+                y_bola = 50
+                contador_jogador = 0
+                contador_oponente = 0
+                rodada_chaves = 1
+                tela_atual = "selecao"
+                menu_aberto = False
+
+            if event.key == pygame.K_ESCAPE:
+                game = False
+                            
 
             
             
             
         
     # ----- Gera saídas
+    
     if tela_atual == "chave":
         
         window.blit(chaves, (0, 0))
@@ -313,6 +354,10 @@ while game:
         pygame.time.delay(2000)
         pygame.quit()
     if tela_atual == "jogo":
+        
+
+
+
         if rodada_chaves == 1:
             vel_oponente = 1
         elif rodada_chaves == 2:
@@ -462,6 +507,19 @@ while game:
                 window.fill((200,0,0))
                 placar_texto = fonte.render("PERDEU", True, (255,255,255))
                 perdeu = 1
+        if menu_aberto:
+            overlay = pygame.Surface((600,300))
+            overlay.set_alpha(180)
+            overlay.fill((0,0,0))
+            window.blit(overlay, (0,0))
+
+            fonte = pygame.font.SysFont("arial", 30)
+
+            window.blit(fonte.render("MENU", True, (255,255,255)), (250, 40))
+            window.blit(fonte.render(f"Volume: {int(volume*100)}%", True, (255,255,255)), (200, 100))
+            window.blit(fonte.render("Reiniciar (R)", True, (255,255,255)), (190, 150))
+            window.blit(fonte.render("Sair (ESC)", True, (255,255,255)), (200, 200))
+            pygame.mixer.music.set_volume(volume)
             
         window.blit(placar_texto, (250, 10))
     clock.tick(60) #FPS
