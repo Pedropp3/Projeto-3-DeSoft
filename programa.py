@@ -171,9 +171,9 @@ while game:
             if tela_atual == "chave":
                 if event.key == pygame.K_SPACE:
                     if times[time_escolhido][0] != "França":
-                        adversario_escolhido = jogaFranca
+                        oponente = jogaFranca
                     else:
-                        adversario_escolhido = jogaAlemanha
+                        oponente = jogaAlemanha
                     tela_atual = "jogo"
                     primeira = 1
             
@@ -422,6 +422,10 @@ while game:
             else:
                 window.fill((200,0,0))
                 placar_texto = fonte.render("PERDEU", True, (255,255,255))
+
+
+        #menu aberto
+        
         
         window.blit(placar_texto, (250, 10))
     clock.tick(60) #FPS
