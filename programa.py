@@ -101,6 +101,9 @@ bandeiraInglaterra = pygame.transform.scale(bandeiraInglaterra,tamanho_bandeira)
 bandeiraPortugal = pygame.image.load("bandeiraPortugal.png")
 bandeiraPortugal = pygame.transform.scale(bandeiraPortugal,tamanho_bandeira)
 
+telavitoria = pygame.image.load("vitoria.png")
+telavitoria = pygame.transform.scale(telavitoria,(600,300))
+
 chaves = pygame.image.load("chaves.png")
 chaves = pygame.transform.scale(chaves,(600,300))
 
@@ -109,10 +112,9 @@ time_escolhido = 0
 jogador_escolhido = times[time_escolhido][1]
 tela_atual = "selecao"
 
-menu_aberto = False
 
 confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
-rodada = 0
+rodada_chaves = 1
 # ===== Loop principal =====
 
 #variaveis iniciais
@@ -133,11 +135,13 @@ x_bola = 285
 y_bola = 50
 vel_x_bola = 0
 vel_y_bola = 0
-gravidade_bola = 0.5
+gravidade_bola = 0.3
 tempo_bola_no_ar = 0
 
 contador_jogador = 0
 contador_oponente = 0
+
+perdeu = 0
 
 clock = pygame.time.Clock()
 
@@ -146,12 +150,6 @@ while game:
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = pygame.mouse.get_pos()
-
-            # área da engrenagem (ajusta se necessário)
-            if mouse_pos[0] <= 50 and mouse_pos[1] <= 50:
-                menu_aberto =  True
         if event.type == pygame.QUIT:
             game = False
         if event.type == pygame.KEYDOWN:
@@ -171,11 +169,15 @@ while game:
             if tela_atual == "chave":
                 if event.key == pygame.K_SPACE:
                     if times[time_escolhido][0] != "França":
-                        oponente = jogaFranca
+                        adversario_escolhido = jogaFranca
                     else:
-                        oponente = jogaAlemanha
-                    tela_atual = "jogo"
-                    primeira = 1
+                        adversario_escolhido = jogaAlemanha
+                    if rodada_chaves <2:
+                        tela_atual = "jogo"
+                        primeira = 1
+                    else:
+                        tela_atual = "vitoria"
+                    
             
             if tela_atual == "jogo":
                 
@@ -194,7 +196,6 @@ while game:
                     velocidade = 0
                 elif event.key == pygame.K_RIGHT:
                     velocidade =  0
-        
                     
 
             
@@ -202,8 +203,9 @@ while game:
             
         
     # ----- Gera saídas
+    
     if tela_atual == "chave":
-     
+        
         window.blit(chaves, (0, 0))
 
         fonte = pygame.font.SysFont(None, 20)
@@ -252,7 +254,7 @@ while game:
 
         for i in range(len(bandeiras)):
             window.blit(bandeiras[i], posicoes[i])
-        if rodada >= 2:
+        if rodada_chaves >= 2:
             time_jogador = times[time_escolhido][0]
 
             semifinalistas = ["Brasil", "Argentina", "França", "Alemanha"]
@@ -280,7 +282,7 @@ while game:
                 nome = semifinalistas[i]
                 bandeira = pygame.transform.scale(bandeiras_times[nome], (60, 30))
                 window.blit(bandeira, pos_semis[i])
-            if rodada >= 3:
+            if rodada_chaves >= 3:
                 if time_jogador in ["Brasil","Argentina"]:
                     window.blit(bandeira_jogador, (225,17))
                     window.blit(bandeiraFranca, (310,17))
@@ -291,7 +293,7 @@ while game:
             
         
 
-
+    
         
     if tela_atual == "selecao":
         window.fill((30,200,30))
@@ -311,48 +313,103 @@ while game:
 
         window.blit(bandeira_time, (200, 120))
         window.blit(imagem_time, (400, 10))
+    
+    if tela_atual == "vitoria":
+        window.blit(telavitoria,(600,300))
 
 
 
 
+    if perdeu == 1:
+        pygame.time.delay(2000)
+        pygame.quit()
 
-    if tela_atual == "jogo":
-        if not menu_aberto:
-            fonte = pygame.font.SysFont(None, 80)
-            if x_bola >= 550 or x_bola <50:
-                mostrar_gol = 1
-            print(vel_y_bola)
-            if vel_y_bola > 0:
-                tempo_bola_no_ar += 1
-            vel_y_bola += gravidade_bola
-            x_bola = x_bola + vel_x_bola
-            y_bola = y_bola + vel_y_bola
-            # oponente segue a bola
-            if x_oponente < x_bola:
-                x_oponente += vel_oponente
-            elif x_oponente > x_bola:
-                x_oponente -= vel_oponente
-                
-                tempo_bola_no_ar = 0
-                bola_no_chao = False
-      
-            if abs(x_jogador - x_bola) <= 30 and abs(y_jogador - y_bola) <= 40:
-                tempo_bola_no_ar = 4
-                vel_x_bola = velocidade*1.5 #empurra pra direita
-                vel_y_bola = -1 #levanta a bolabola += vel_x_bola
+    
+    if tela_atual == "jogo" and rodada_chaves < 4:
+        if rodada_chaves == 1:
+            vel_oponente = 1
+        elif rodada_chaves == 2:
+            vel_oponente = 1.5
+        elif rodada_chaves == 3:
+            vel_oponente = 2
+        
+        # descobrir confronto do jogador
+        time_jogador_nome = times[time_escolhido][0]
+
+        for confronto in confrontos:
+            if time_jogador_nome in confronto:
+                if confronto[0] == time_jogador_nome:
+                    nome_adversario = confronto[1]
+                else:
+                    nome_adversario = confronto[0]
+
+        # pegar imagem do adversário
+        for time in times:
+            if time[0] == nome_adversario:
+                oponente = time[1]
+        fonte = pygame.font.SysFont(None, 80)
+
+
+        if x_bola >= 550 and y_bola > 130:
+            mostrar_gol = 1
+
+        elif x_bola <50 and y_bola > 130:
+            mostrar_gol = 1
             
 
-            # chão
-            if y_bola >= 190:
-                y_bola = 190
-                bola_no_chao = True
-            if bola_no_chao:
-                vel_y_bola = - tempo_bola_no_ar * gravidade_bola*0.9 #quica
+        if y_bola <=130 and x_bola >= 550:
+            vel_x_bola = -5
+            tempo_bola_no_ar = 0
+        elif y_bola <=130 and x_bola <= 50:
+            vel_x_bola = 5
+            tempo_bola_no_ar = 0
+
+
+
+        print(vel_y_bola)
+        if vel_y_bola > 0:
+            tempo_bola_no_ar += 1
+        vel_y_bola += gravidade_bola
+        x_bola = x_bola + vel_x_bola
+        y_bola = y_bola + vel_y_bola
+        # oponente segue a bola
+        if x_oponente < x_bola:
+            x_oponente += vel_oponente
+        elif x_oponente > x_bola:
+            x_oponente -= vel_oponente
+        if abs(x_jogador - x_bola) <= 30:
+            if abs(y_jogador - y_bola) <= 10:
+                tempo_bola_no_ar = 4
+                vel_x_bola = 5 #empurra pra direita
+                vel_y_bola = -4 #levanta a bolabola += vel_x_bola
+            elif y_bola - y_jogador < 30 and y_bola > y_jogador:
+                tempo_bola_no_ar = 4
+                vel_x_bola = 5 #empurra pra direita
+                vel_y_bola = -4 #levanta a bolabola += vel_x_bola
+
+        
+        if abs(x_oponente - x_bola) <= 30 and abs(y_oponente - y_bola) <= 10:
+            vel_x_bola = -5
+            vel_y_bola = -4
+        
+
+        
+            
+
+        # chão
+        if y_bola >= 190:
+            y_bola = 190
+            bola_no_chao = True
+        if bola_no_chao:
+            vel_y_bola = - tempo_bola_no_ar * gravidade_bola*0.9 #quica
+
+            
+            tempo_bola_no_ar = 0
+            bola_no_chao = False
+        
         
         
         if primeira == 1:
-            x_oponente = 450
-            y_oponente = 160
             contador_jogador = 0
             contador_oponente = 0
             x_bola = 285
@@ -362,6 +419,9 @@ while game:
             vel_y_jogador = 0
             gravidade = 0.8
             no_chao = True
+            x_oponente = 450
+            y_oponente = 160
+
             primeira = 0
             velocidade = 0
         y_jogador += vel_y_jogador
@@ -389,10 +449,8 @@ while game:
         window.blit(jogador_escolhido, (x_jogador, y_jogador))
         #window.blit(oponente, (430, 170))
         window.blit(bola, (x_bola, y_bola))
-
-        oponente = pygame.transform.scale(oponente, (60,60))
-        window.blit(oponente, (x_oponente, y_oponente))
-
+        adversario_escolhido = pygame.transform.scale(adversario_escolhido, (60,60))
+        window.blit(adversario_escolhido, (x_oponente, y_oponente))
     #window.fill((80, 180, 80))  # Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
         placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
@@ -411,22 +469,22 @@ while game:
                 
                 x_jogador = 50
                 y_jogador = 160
+
+                x_oponente = 450
+                y_oponente = 160
                 
                 mostrar_gol = 0
                 placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
         if contador_oponente == 3 or contador_jogador == 3:
             if contador_jogador == 3:
-                rodada = rodada + 1
+                rodada_chaves = rodada_chaves + 1
                 tela_atual = "chave"
                 
             else:
                 window.fill((200,0,0))
                 placar_texto = fonte.render("PERDEU", True, (255,255,255))
-
-
-        #menu aberto
-        
-        
+                perdeu = 1
+            
         window.blit(placar_texto, (250, 10))
     clock.tick(60) #FPS
     pygame.display.update()
