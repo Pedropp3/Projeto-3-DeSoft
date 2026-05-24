@@ -120,7 +120,7 @@ volume = 0.5
 # ===== Loop principal =====
 
 #variaveis iniciais
-
+gravidade = 0.7
 
 x_jogador = 50
 y_jogador = 160
@@ -131,6 +131,9 @@ no_chao = True
 x_oponente = 450
 y_oponente = 160
 vel_oponente = 2
+no_chao_oponente = True
+vel_y_oponente = 0
+
 
 bola_no_chao = False
 x_bola = 285
@@ -178,6 +181,7 @@ while game:
                     tela_atual = "chave"
                     
             if tela_atual == "chave":
+                pygame.time.delay(1000)
                 if event.key == pygame.K_SPACE:
                     if times[time_escolhido][0] != "França":
                         adversario_escolhido = jogaFranca
@@ -377,8 +381,15 @@ while game:
             tempo_bola_no_ar = 0
 
 
+        #gravifade oponente
+        vel_y_oponente = gravidade
+        y_oponente += vel_y_oponente
 
-        print(vel_y_bola)
+
+        
+
+        
+        print(y_jogador)
         if vel_y_bola > 0:
             tempo_bola_no_ar += 1
         vel_y_bola += gravidade_bola
@@ -389,21 +400,36 @@ while game:
             x_oponente += vel_oponente
         elif x_oponente > x_bola:
             x_oponente -= vel_oponente
+        if abs(x_oponente - x_bola) < 30 and no_chao_oponente:
+            if y_oponente > y_bola:
+                y_oponente += -20
+                no_chao_oponente = False
+        if y_oponente >= 160:
+            y_oponente = 160
+            vel_y_oponente = 0
+            no_chao_oponente = True
+            
+
+
         if abs(x_jogador - x_bola) <= 30:
             if abs(y_jogador - y_bola) <= 10:
                 tempo_bola_no_ar = 4
                 vel_x_bola = 5 #empurra pra direita
-                vel_y_bola = -4 #levanta a bolabola += vel_x_bola
+                vel_y_bola = -4 #levanta a bolabola 
             elif y_bola - y_jogador < 30 and y_bola > y_jogador:
                 tempo_bola_no_ar = 4
                 vel_x_bola = 5 #empurra pra direita
-                vel_y_bola = -4 #levanta a bolabola += vel_x_bola
-
+                vel_y_bola = -4 #levanta a bolabola 
         
-        if abs(x_oponente - x_bola) <= 30 and abs(y_oponente - y_bola) <= 10:
-            vel_x_bola = -5
-            vel_y_bola = -4
-        
+        if abs(x_oponente - x_bola) <= 30:
+            if abs(y_oponente - y_bola) <= 10:
+                tempo_bola_no_ar = 4
+                vel_x_bola = -5 #empurra pra esquerda
+                vel_y_bola = -4 #levanta a bolabola 
+            elif y_bola - y_oponente < 30 and y_bola > y_oponente:
+                tempo_bola_no_ar = 4
+                vel_x_bola = -5 #empurra pra direita
+                vel_y_bola = -4 #levanta a bolabola
 
         
             
@@ -429,7 +455,7 @@ while game:
             x_jogador = 50
             y_jogador = 160
             vel_y_jogador = 0
-            gravidade = 0.8
+            
             no_chao = True
             x_oponente = 450
             y_oponente = 160
