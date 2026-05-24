@@ -11,8 +11,17 @@ pygame.display.set_caption('Jogo do Pedro, Nicolas e Eduardo')
 
 # ----- Inicia estruturas de dados
 game = True
+pygame.mixer.init()
 
 # ----- Personagesns e objetos
+
+#pygame.mixer.music.load('nome.mp3')
+#pygame.mixer.music.set_volume(0.4)
+chute_som = pygame.mixer.Sound('chute.mp3')
+gol_som = pygame.mixer.Sound('gol.mp3')
+vaia_som = pygame.mixer.Sound('vaia.mp3')
+
+
 
 engrenagem_menu = pygame.image.load("engrenagem.png").convert_alpha()
 engrenagem_menu = pygame.transform.scale(engrenagem_menu, (50,50))
@@ -407,6 +416,7 @@ while game:
             if y_oponente > y_bola:
                 y_oponente += -20
                 no_chao_oponente = False
+                
         if y_oponente >= 160:
             y_oponente = 160
             vel_y_oponente = 0
@@ -419,20 +429,24 @@ while game:
                 tempo_bola_no_ar = 4
                 vel_x_bola = 5 #empurra pra direita
                 vel_y_bola = -4 #levanta a bolabola 
+                chute_som.play()
             elif y_bola - y_jogador < 30 and y_bola > y_jogador:
                 tempo_bola_no_ar = 4
                 vel_x_bola = 5 #empurra pra direita
                 vel_y_bola = -4 #levanta a bolabola 
+                chute_som.play()
         
         if abs(x_oponente - x_bola) <= 30:
             if abs(y_oponente - y_bola) <= 10:
                 tempo_bola_no_ar = 4
                 vel_x_bola = -5 #empurra pra esquerda
                 vel_y_bola = -4 #levanta a bolabola 
+                chute_som.play()
             elif y_bola - y_oponente < 30 and y_bola > y_oponente:
                 tempo_bola_no_ar = 4
                 vel_x_bola = -5 #empurra pra direita
                 vel_y_bola = -4 #levanta a bolabola
+                chute_som.play()
 
         
             
@@ -499,11 +513,15 @@ while game:
                 
                 texto = fonte.render("GOOOL!", True, (255, 255, 0))
                 window.blit(texto, (200, 100))
-                pygame.time.delay(500)
+                pygame.time.delay(100)
                 if x_bola > 300:
                     contador_jogador += 1
+                    pygame.mixer.stop()
+                    gol_som.play()
                 else: 
                     contador_oponente +=1
+                    pygame.mixer.stop()
+                    vaia_som.play()
                 x_bola = 285
                 y_bola = 50
                 vel_x_bola = 0
