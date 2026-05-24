@@ -107,6 +107,9 @@ telavitoria = pygame.transform.scale(telavitoria,(600,300))
 chaves = pygame.image.load("chaves.png")
 chaves = pygame.transform.scale(chaves,(600,300))
 
+teladerrota = pygame.image.load("derrota.png")
+teladerrota = pygame.transform.scale(teladerrota    ,(600,300))
+
 times = [["Brasil", jogaBrasil, bandeiraBrasil],["França", jogaFranca, bandeiraFranca],["Alemanha", jogaAlemanha, bandeiraAlemanha],["Espanha", jogaEspanha, bandeiraEspanha],["Croácia", jogaCroacia, bandeiraCroacia],["Argentina", jogaArgentina, bandeiraArgentina],["Inglaterra", jogaInglaterra, bandeiraInglaterra],["Portugal", jogaPortugal, bandeiraPortugal]]
 time_escolhido = 0
 jogador_escolhido = times[time_escolhido][1]
@@ -519,10 +522,10 @@ while game:
                 tela_atual = "chave"
                 
             else:
-                window.fill((200,0,0))
-                placar_texto = fonte.render("PERDEU", True, (255,255,255))
+                window.blit(teladerrota,(0,0))
                 perdeu = 1
-        window.blit(placar_texto, (250, 10))
+        if perdeu == 0:
+            window.blit(placar_texto, (250, 10))
     if menu_aberto:
         overlay = pygame.Surface((600,300))
         overlay.set_alpha(180)
