@@ -168,6 +168,7 @@ chaves = pygame.transform.scale(chaves,(600,300))
 teladerrota = pygame.image.load("derrota.png")
 teladerrota = pygame.transform.scale(teladerrota,(600,300))
 
+# [nome do time, imagem do jogador, bandeira, imagem do jogador em movimento]
 times = [["Brasil", jogaBrasil, bandeiraBrasil, jogaBrasil2],["França", jogaFranca, bandeiraFranca, jogaFranca2],["Alemanha", jogaAlemanha, bandeiraAlemanha, jogaAlemanha2],["Espanha", jogaEspanha, bandeiraEspanha, jogaEspanha2],["Croácia", jogaCroacia, bandeiraCroacia, jogaCroacia2],["Argentina", jogaArgentina, bandeiraArgentina, jogaArgentina2],["Inglaterra", jogaInglaterra, bandeiraInglaterra, jogaInglaterra2],["Portugal", jogaPortugal, bandeiraPortugal, jogaPortugal2]]
 time_escolhido = 0
 jogador_escolhido = times[time_escolhido][1]
@@ -179,6 +180,10 @@ tela_atual = "selecao"
 
 confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
 
+
+# Rodada 1 = quartas de final
+# Rodada 2 = semifinal
+# Rodada 3 = final
 def escolher_nome_adversario(time_jogador_nome, rodada):
     if rodada == 1:
         for confronto in confrontos:
@@ -480,7 +485,7 @@ while game:
                 else:
                     nome_adversario = confronto[0]
 
-        # pegar imagem do adversário
+   
         
 
 
@@ -514,22 +519,22 @@ while game:
         x_bola = x_bola + vel_x_bola
         y_bola = y_bola + vel_y_bola
         # oponente segue a bola
+
+        
         if x_oponente < x_bola:
             x_oponente += vel_oponente
         elif x_oponente > x_bola:
             x_oponente -= vel_oponente
+
+        # Se o jogador ou oponente encostar na bola, a bola é chutada para cima para o lado.
         if abs(x_oponente - x_bola) < 30 and no_chao_oponente:
             if y_oponente > y_bola:
                 y_oponente += -20
                 no_chao_oponente = False
-                
         if y_oponente >= 160:
             y_oponente = 160
             vel_y_oponente = 0
             no_chao_oponente = True
-            
-
-
         if abs(x_jogador - x_bola) <= 30:
             if abs(y_jogador - y_bola) <= 10:
                 tempo_bola_no_ar = 4
@@ -541,7 +546,6 @@ while game:
                 vel_x_bola = 5 #empurra pra direita
                 vel_y_bola = -4 #levanta a bolabola 
                 chute_som.play()
-        
         if abs(x_oponente - x_bola) <= 30:
             if abs(y_oponente - y_bola) <= 10:
                 tempo_bola_no_ar = 4
@@ -610,6 +614,8 @@ while game:
         jogador_img1 = pygame.transform.scale(jogador_escolhido, (60, 60))
         jogador_img2 = pygame.transform.scale(jogador_escolhido2, (60, 60))
 
+
+        # Alterna entre duas imagens para simular movimento dos jogadores e da bola.
         frame_animacao = (contagem // 15) % 2
 
         if frame_animacao == 0:
