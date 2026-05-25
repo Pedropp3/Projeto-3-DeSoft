@@ -8,3 +8,5 @@ Para iniciar o jogo, basta escolher o jogador, utilizando as setinhas do teclado
 
 IA utilizada em:
 movimento do oponente, a escolha do adversario, menu abrir e ajustar o som, deixar as animacoes fluidas, criar imagem de vitoria e derrota, deixar o codigo organizado no ultimo commit, criar delays, chute (hitbox). Copilot utilizado 4%
+
+https://youtu.be/ZLtuxvYa32Q
