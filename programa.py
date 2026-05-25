@@ -15,8 +15,8 @@ pygame.mixer.init()
 
 # ----- Personagesns e objetos
 
-#pygame.mixer.music.load('nome.mp3')
-#pygame.mixer.music.set_volume(0.4)
+pygame.mixer.music.load('estadio.wav')
+pygame.mixer.music.set_volume(0.4)
 chute_som = pygame.mixer.Sound('chute.mp3')
 gol_som = pygame.mixer.Sound('gol.mp3')
 vaia_som = pygame.mixer.Sound('vaia.mp3')
@@ -42,6 +42,14 @@ traveDireita.set_colorkey((255,255,255))
 bola = pygame.image.load("bola.png")
 bola = pygame.transform.scale(bola, (20,25))
 bola.set_colorkey((255,255,255))
+bola = bola.convert_alpha()
+
+
+
+bola2 = pygame.image.load("bola2.png")
+bola2 = pygame.transform.scale(bola2, (20,25))
+bola2.set_colorkey((255,255,255))
+bola2 = bola2.convert_alpha()
 
 tamanho_personagens = [300,300]
 jogaBrasil = pygame.image.load("jogaBrasil.png")
@@ -84,6 +92,46 @@ jogaPortugal = pygame.transform.scale(jogaPortugal, tamanho_personagens)
 jogaPortugal.set_colorkey((255,255,255))      #tira o fundo branco
 jogaPortugal = jogaPortugal.convert_alpha()
 
+jogaBrasil2 = pygame.image.load("jogaBrasil2.png")
+jogaBrasil2 = pygame.transform.scale(jogaBrasil2, tamanho_personagens)
+jogaBrasil2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaBrasil2 = jogaBrasil2.convert_alpha()
+
+jogaFranca2 = pygame.image.load("jogaFranca2.png")
+jogaFranca2 = pygame.transform.scale(jogaFranca2, tamanho_personagens)
+jogaFranca2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaFranca2 = jogaFranca2.convert_alpha()
+
+jogaAlemanha2 = pygame.image.load("jogaAlemanha2.png")
+jogaAlemanha2 = pygame.transform.scale(jogaAlemanha2, tamanho_personagens)
+jogaAlemanha2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaAlemanha2 = jogaAlemanha2.convert_alpha()
+
+jogaEspanha2 = pygame.image.load("jogaEspanha2.png")
+jogaEspanha2 = pygame.transform.scale(jogaEspanha2, tamanho_personagens)
+jogaEspanha2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaEspanha2 = jogaEspanha2.convert_alpha()
+
+jogaCroacia2 = pygame.image.load("jogaCroacia2.png")
+jogaCroacia2 = pygame.transform.scale(jogaCroacia2, tamanho_personagens)
+jogaCroacia2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaCroacia2 = jogaCroacia2.convert_alpha()
+
+jogaArgentina2 = pygame.image.load("jogaArgentina2.png")
+jogaArgentina2 = pygame.transform.scale(jogaArgentina2, tamanho_personagens)
+jogaArgentina2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaArgentina2 = jogaArgentina2.convert_alpha()
+
+jogaInglaterra2 = pygame.image.load("jogaInglaterra2.png")
+jogaInglaterra2 = pygame.transform.scale(jogaInglaterra2, tamanho_personagens)
+jogaInglaterra2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaInglaterra2 = jogaInglaterra2.convert_alpha()
+
+jogaPortugal2 = pygame.image.load("jogaPortugal2.png")
+jogaPortugal2 = pygame.transform.scale(jogaPortugal2, tamanho_personagens)
+jogaPortugal2.set_colorkey((255,255,255))      #tira o fundo branco
+jogaPortugal2 = jogaPortugal2.convert_alpha()
+
 tamanho_bandeira = [200,100]
 
 bandeiraAlemanha = pygame.image.load("bandeiraAlemanha.png")
@@ -117,9 +165,9 @@ chaves = pygame.image.load("chaves.png")
 chaves = pygame.transform.scale(chaves,(600,300))
 
 teladerrota = pygame.image.load("derrota.png")
-teladerrota = pygame.transform.scale(teladerrota    ,(600,300))
+teladerrota = pygame.transform.scale(teladerrota,(600,300))
 
-times = [["Brasil", jogaBrasil, bandeiraBrasil],["França", jogaFranca, bandeiraFranca],["Alemanha", jogaAlemanha, bandeiraAlemanha],["Espanha", jogaEspanha, bandeiraEspanha],["Croácia", jogaCroacia, bandeiraCroacia],["Argentina", jogaArgentina, bandeiraArgentina],["Inglaterra", jogaInglaterra, bandeiraInglaterra],["Portugal", jogaPortugal, bandeiraPortugal]]
+times = [["Brasil", jogaBrasil, bandeiraBrasil, jogaBrasil2],["França", jogaFranca, bandeiraFranca, jogaFranca2],["Alemanha", jogaAlemanha, bandeiraAlemanha, jogaAlemanha2],["Espanha", jogaEspanha, bandeiraEspanha, jogaEspanha2],["Croácia", jogaCroacia, bandeiraCroacia, jogaCroacia2],["Argentina", jogaArgentina, bandeiraArgentina, jogaArgentina2],["Inglaterra", jogaInglaterra, bandeiraInglaterra, jogaInglaterra2],["Portugal", jogaPortugal, bandeiraPortugal, jogaPortugal2]]
 time_escolhido = 0
 jogador_escolhido = times[time_escolhido][1]
 tela_atual = "selecao"
@@ -161,6 +209,7 @@ contador_oponente = 0
 perdeu = 0
 
 clock = pygame.time.Clock()
+contagem = 0 #para o som da torcida e mudanca de aparencia
 
 mostrar_gol = 0
 while game:
@@ -169,10 +218,17 @@ while game:
         # ----- Verifica consequências
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
-
+            print(mouse_pos)
             # tamanho da engrenagem 
             if mouse_pos[0] <= 50 and mouse_pos[1] <= 50:
                 menu_aberto =  True
+            if 200 <= mouse_pos[0] <= 210:
+                if 150 <= mouse_pos[1] <= 180:
+                    volume = volume+0.1
+            if 290 < mouse_pos[0] <= 310:
+                if 150 <= mouse_pos[1] <= 180:
+                    volume = volume-0.1
+            
         if event.type == pygame.QUIT:
             game = False
         if event.type == pygame.KEYDOWN:
@@ -190,20 +246,30 @@ while game:
                         time_escolhido = 7
                 elif event.key == pygame.K_RETURN:
                     jogador_escolhido = times[time_escolhido][1]
+                    jogador_escolhido2 = times[time_escolhido][3]
                     tela_atual = "chave"
                     
             if tela_atual == "chave":
-                pygame.time.delay(1000)
+                pygame.time.delay(500)
                 if event.key == pygame.K_SPACE:
-                    if times[time_escolhido][0] != "França":
-                        adversario_escolhido = jogaFranca
-                    else:
-                        adversario_escolhido = jogaAlemanha
-                    if rodada_chaves <4:
+                    time_jogador_nome = times[time_escolhido][0]
+
+                    for confronto in confrontos:
+                        if time_jogador_nome in confronto:
+                            if confronto[0] == time_jogador_nome:
+                                nome_adversario = confronto[1]
+                            else:
+                                nome_adversario = confronto[0]
+                    if rodada_chaves < 4:
                         tela_atual = "jogo"
                         primeira = 1
                     else:
                         tela_atual = "vitoria"
+
+                    for time in times:
+                        if time[0] == nome_adversario:
+                            adversario_escolhido = pygame.transform.scale(time[1], (60, 60))
+                            adversario_escolhido2 = pygame.transform.scale(time[3], (60, 60))
                     
             
             if tela_atual == "jogo":
@@ -231,7 +297,7 @@ while game:
             
         
     # ----- Gera saídas
-    
+
     if tela_atual == "chave":
         if rodada_chaves < 4:
             window.blit(chaves, (0, 0))
@@ -325,6 +391,9 @@ while game:
     
         
     if tela_atual == "selecao" and not menu_aberto:
+      
+        
+
         window.fill((30,200,30))
         fonte = pygame.font.SysFont(None, 30)
 
@@ -342,9 +411,13 @@ while game:
 
         window.blit(bandeira_time, (200, 120))
         window.blit(imagem_time, (400, 10))
-    
-    
+        pygame.time.delay(1000)
 
+    contagem=contagem+1
+    if contagem%120 == 0 and tela_atual == "jogo":
+        if not menu_aberto:
+            pygame.mixer.music.play()
+        
 
 
 
@@ -354,6 +427,8 @@ while game:
 
     
     if tela_atual == "jogo" and rodada_chaves < 4 and not menu_aberto:
+        
+        
         if rodada_chaves == 1:
             vel_oponente = 1
         elif rodada_chaves == 2:
@@ -372,10 +447,7 @@ while game:
                     nome_adversario = confronto[0]
 
         # pegar imagem do adversário
-        for time in times:
-            if time[0] == nome_adversario:
-                oponente = time[1]
-        fonte = pygame.font.SysFont(None, 80)
+        
 
 
         if x_bola >= 550 and y_bola > 130:
@@ -465,6 +537,12 @@ while game:
         
         
         if primeira == 1:
+
+            for time in times:
+                if time[0] == nome_adversario:
+                    oponente = time[1]
+                    oponente2 = time[3]
+                fonte = pygame.font.SysFont(None, 80)
             contador_jogador = 0
             contador_oponente = 0
             x_bola = 285
@@ -497,17 +575,34 @@ while game:
         
         #menu
         window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
-
+        
         # jogadores e bola
         jogador_escolhido = pygame.transform.scale(jogador_escolhido, (60,60))
+        jogador_escolhido2 = pygame.transform.scale(jogador_escolhido2, (60,60))
         
-        window.blit(jogador_escolhido, (x_jogador, y_jogador))
+        frame_animacao = (contagem // 15) % 2
+
+        if frame_animacao == 0:
+            window.blit(jogador_escolhido, (x_jogador, y_jogador))
+            window.blit(adversario_escolhido, (x_oponente, y_oponente))
+            window.blit(bola, (x_bola, y_bola))
+        else:
+            window.blit(jogador_escolhido2, (x_jogador, y_jogador))
+            window.blit(adversario_escolhido2, (x_oponente, y_oponente))
+            window.blit(bola2, (x_bola, y_bola))
+
+
         #window.blit(oponente, (430, 170))
-        window.blit(bola, (x_bola, y_bola))
+    
+     
+        
+            
+        
         adversario_escolhido = pygame.transform.scale(adversario_escolhido, (60,60))
-        window.blit(adversario_escolhido, (x_oponente, y_oponente))
-    #window.fill((80, 180, 80))  # Preenche com a cor de fundo
-    #window.blit(bandeiraArgentina, (0, 0))   #Coloca a imagem
+        
+        
+    #window.fill((80, 180, 80))   Preenche com a cor de fundo
+    #window.blit(bandeiraArgentina, (0, 0))   Coloca a imagem
         placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
         if mostrar_gol == 1:
                 
@@ -556,11 +651,14 @@ while game:
         window.blit(fonte.render("Sair (ESC)", True, (255,255,255)), (200, 200))
 
         pygame.mixer.music.set_volume(volume)
-        pygame.mixer.music.set_volume(volume) 
+        gol_som.set_volume(volume)
+        vaia_som.set_volume(volume)
+        chute_som.set_volume(volume)
            
         
     if tela_atual == "vitoria":
         window.blit(telavitoria,(0,0))
+        
     clock.tick(60) #FPS
     pygame.display.update()
 pygame.quit()
