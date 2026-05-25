@@ -1,5 +1,6 @@
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
+
 import pygame
 
 
@@ -170,10 +171,51 @@ teladerrota = pygame.transform.scale(teladerrota,(600,300))
 times = [["Brasil", jogaBrasil, bandeiraBrasil, jogaBrasil2],["França", jogaFranca, bandeiraFranca, jogaFranca2],["Alemanha", jogaAlemanha, bandeiraAlemanha, jogaAlemanha2],["Espanha", jogaEspanha, bandeiraEspanha, jogaEspanha2],["Croácia", jogaCroacia, bandeiraCroacia, jogaCroacia2],["Argentina", jogaArgentina, bandeiraArgentina, jogaArgentina2],["Inglaterra", jogaInglaterra, bandeiraInglaterra, jogaInglaterra2],["Portugal", jogaPortugal, bandeiraPortugal, jogaPortugal2]]
 time_escolhido = 0
 jogador_escolhido = times[time_escolhido][1]
+jogador_escolhido2 = times[time_escolhido][3]
+adversario_escolhido = pygame.transform.scale(jogaFranca, (60, 60))
+adversario_escolhido2 = pygame.transform.scale(jogaFranca2, (60, 60))
 tela_atual = "selecao"
 
 
 confrontos = [["Brasil", "Portugal"],["Argentina", "Inglaterra"],["França", "Croácia"],["Alemanha", "Espanha"]]
+
+def escolher_nome_adversario(time_jogador_nome, rodada):
+    if rodada == 1:
+        for confronto in confrontos:
+            if time_jogador_nome in confronto:
+                if confronto[0] == time_jogador_nome:
+                    return confronto[1]
+                else:
+                    return confronto[0]
+
+    elif rodada == 2:
+        if time_jogador_nome in ["Brasil", "Portugal"]:
+            return "Argentina"
+        elif time_jogador_nome in ["Argentina", "Inglaterra"]:
+            return "Brasil"
+        elif time_jogador_nome in ["França", "Croácia"]:
+            return "Alemanha"
+        elif time_jogador_nome in ["Alemanha", "Espanha"]:
+            return "França"
+
+    elif rodada == 3:
+        if time_jogador_nome in ["Brasil", "Portugal", "Argentina", "Inglaterra"]:
+            return "França"
+        else:
+            return "Brasil"
+
+    return "França"
+
+
+def pegar_imagens_time(nome_time):
+    for time in times:
+        if time[0] == nome_time:
+            img1 = pygame.transform.scale(time[1], (60, 60))
+            img2 = pygame.transform.scale(time[3], (60, 60))
+            return img1, img2
+    return pygame.transform.scale(jogaFranca, (60, 60)), pygame.transform.scale(jogaFranca2, (60, 60))
+
+
 rodada_chaves = 1
 menu_aberto = False
 volume = 0.5
@@ -250,27 +292,18 @@ while game:
                     tela_atual = "chave"
                     
             if tela_atual == "chave":
-                pygame.time.delay(500)
+                pygame.time.delay(1000)
                 if event.key == pygame.K_SPACE:
                     time_jogador_nome = times[time_escolhido][0]
+                    nome_adversario = escolher_nome_adversario(time_jogador_nome, rodada_chaves)
+                    adversario_escolhido, adversario_escolhido2 = pegar_imagens_time(nome_adversario)
 
-                    for confronto in confrontos:
-                        if time_jogador_nome in confronto:
-                            if confronto[0] == time_jogador_nome:
-                                nome_adversario = confronto[1]
-                            else:
-                                nome_adversario = confronto[0]
                     if rodada_chaves < 4:
                         tela_atual = "jogo"
                         primeira = 1
                     else:
                         tela_atual = "vitoria"
 
-                    for time in times:
-                        if time[0] == nome_adversario:
-                            adversario_escolhido = pygame.transform.scale(time[1], (60, 60))
-                            adversario_escolhido2 = pygame.transform.scale(time[3], (60, 60))
-                    
             
             if tela_atual == "jogo":
                 
@@ -423,7 +456,8 @@ while game:
 
     if perdeu == 1:
         pygame.time.delay(2000)
-        pygame.quit()
+        game = False
+        continue
 
     
     if tela_atual == "jogo" and rodada_chaves < 4 and not menu_aberto:
@@ -538,11 +572,7 @@ while game:
         
         if primeira == 1:
 
-            for time in times:
-                if time[0] == nome_adversario:
-                    oponente = time[1]
-                    oponente2 = time[3]
-                fonte = pygame.font.SysFont(None, 80)
+            fonte = pygame.font.SysFont(None, 80)
             contador_jogador = 0
             contador_oponente = 0
             x_bola = 285
@@ -577,30 +607,27 @@ while game:
         window.blit(engrenagem_menu, (0, 0))   #Coloca a imagem
         
         # jogadores e bola
-        jogador_escolhido = pygame.transform.scale(jogador_escolhido, (60,60))
-        jogador_escolhido2 = pygame.transform.scale(jogador_escolhido2, (60,60))
-        
+        jogador_img1 = pygame.transform.scale(jogador_escolhido, (60, 60))
+        jogador_img2 = pygame.transform.scale(jogador_escolhido2, (60, 60))
+
         frame_animacao = (contagem // 15) % 2
 
         if frame_animacao == 0:
-            window.blit(jogador_escolhido, (x_jogador, y_jogador))
+            window.blit(jogador_img1, (x_jogador, y_jogador))
             window.blit(adversario_escolhido, (x_oponente, y_oponente))
             window.blit(bola, (x_bola, y_bola))
         else:
-            window.blit(jogador_escolhido2, (x_jogador, y_jogador))
+            window.blit(jogador_img2, (x_jogador, y_jogador))
             window.blit(adversario_escolhido2, (x_oponente, y_oponente))
             window.blit(bola2, (x_bola, y_bola))
 
 
         #window.blit(oponente, (430, 170))
-    
-     
-        
-            
-        
-        adversario_escolhido = pygame.transform.scale(adversario_escolhido, (60,60))
-        
-        
+
+
+
+
+
     #window.fill((80, 180, 80))   Preenche com a cor de fundo
     #window.blit(bandeiraArgentina, (0, 0))   Coloca a imagem
         placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
@@ -649,6 +676,11 @@ while game:
         window.blit(fonte.render(f"Volume: {int(volume*100)}%", True, (255,255,255)), (200, 100))
         window.blit(fonte.render(f"+            -", True, (255,255,255)), (200, 150))
         window.blit(fonte.render("Sair (ESC)", True, (255,255,255)), (200, 200))
+
+        if volume < 0:
+            volume = 0
+        if volume > 1:
+            volume = 1
 
         pygame.mixer.music.set_volume(volume)
         gol_som.set_volume(volume)
