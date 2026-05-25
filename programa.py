@@ -21,6 +21,7 @@ pygame.mixer.music.set_volume(0.4)
 chute_som = pygame.mixer.Sound('chute.mp3')
 gol_som = pygame.mixer.Sound('gol.mp3')
 vaia_som = pygame.mixer.Sound('vaia.mp3')
+inicio_som = pygame.mixer.Sound('musicainicio.mp3')
 
 
 
@@ -337,6 +338,9 @@ while game:
     # ----- Gera saídas
 
     if tela_atual == "chave":
+        if inicio_som.get_num_channels() == 0:  # Verifica se o som não está tocando
+            inicio_som.play()
+        
         if rodada_chaves < 4:
             window.blit(chaves, (0, 0))
 
@@ -427,10 +431,11 @@ while game:
         
 
     
-        
+        #tela de selecao do time
     if tela_atual == "selecao" and not menu_aberto:
-      
-        
+        inicio_som.set_volume(volume)
+        if inicio_som.get_num_channels() == 0:  # Verifica se o som não está tocando
+            inicio_som.play()
 
         window.fill((30,200,30))
         fonte = pygame.font.SysFont(None, 30)
@@ -443,6 +448,7 @@ while game:
         instrucao = fonte.render("Use as setas e aperte ENTER", True, (255, 255, 255))
         nome = fonte.render(nome_time, True, (255, 255, 255))
 
+        #faz aparecer na tela 
         window.blit(texto, (210, 20))
         window.blit(instrucao, (155, 55))
         window.blit(nome, (260, 90))
@@ -451,6 +457,7 @@ while game:
         window.blit(imagem_time, (400, 10))
         pygame.time.delay(1000)
 
+    #fazer o som da torcida tocar a cada 2 segundos
     contagem=contagem+1
     if contagem%120 == 0 and tela_atual == "jogo":
         if not menu_aberto:
@@ -458,7 +465,7 @@ while game:
         
 
 
-
+        #verif9car se perdeu
     if perdeu == 1:
         pygame.time.delay(2000)
         game = False
@@ -467,7 +474,7 @@ while game:
     
     if tela_atual == "jogo" and rodada_chaves < 4 and not menu_aberto:
         
-        
+        inicio_som.stop() #parar a musica da selecao de times
         if rodada_chaves == 1:
             vel_oponente = 1
         elif rodada_chaves == 2:
@@ -486,16 +493,14 @@ while game:
                     nome_adversario = confronto[0]
 
    
-        
-
-
+        #verificar se houve gol
         if x_bola >= 550 and y_bola > 130:
             mostrar_gol = 1
 
         elif x_bola <50 and y_bola > 130:
             mostrar_gol = 1
             
-
+        #bola quica nas paredes que nao sao o gol
         if y_bola <=130 and x_bola >= 550:
             vel_x_bola = -5
             tempo_bola_no_ar = 0
@@ -509,18 +514,15 @@ while game:
         y_oponente += vel_y_oponente
 
 
-        
-
-        
-        print(y_jogador)
+        #ver o tempo da bola no ar para calcular o quanto ela vai pingar
         if vel_y_bola > 0:
             tempo_bola_no_ar += 1
+
         vel_y_bola += gravidade_bola
         x_bola = x_bola + vel_x_bola
         y_bola = y_bola + vel_y_bola
         # oponente segue a bola
-
-        
+    
         if x_oponente < x_bola:
             x_oponente += vel_oponente
         elif x_oponente > x_bola:
@@ -575,7 +577,7 @@ while game:
         
         
         if primeira == 1:
-
+            #setar as condicoes iniciais das partidas
             fonte = pygame.font.SysFont(None, 80)
             contador_jogador = 0
             contador_oponente = 0
@@ -591,6 +593,8 @@ while game:
 
             primeira = 0
             velocidade = 0
+
+        #faz o jogador se movimentar e cair quando pula
         y_jogador += vel_y_jogador
         vel_y_jogador = gravidade
         if y_jogador >= 160:
@@ -628,20 +632,17 @@ while game:
             window.blit(bola2, (x_bola, y_bola))
 
 
-        #window.blit(oponente, (430, 170))
 
-
-
-
-
-    #window.fill((80, 180, 80))   Preenche com a cor de fundo
-    #window.blit(bandeiraArgentina, (0, 0))   Coloca a imagem
+    #window.fill((80, 180, 80))   Preenche com a cor de fundo - deixei para ter de referencia 
+    #window.blit(bandeiraArgentina, (0, 0))   Coloca a imagem - deixei para ter de referencia
         placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
         if mostrar_gol == 1:
                 
                 texto = fonte.render("GOOOL!", True, (255, 255, 0))
                 window.blit(texto, (200, 100))
                 pygame.time.delay(100)
+
+                #identificar quem fez o gol
                 if x_bola > 300:
                     contador_jogador += 1
                     pygame.mixer.stop()
@@ -654,6 +655,7 @@ while game:
                 y_bola = 50
                 vel_x_bola = 0
                 
+                #volta os jogadores para a posicao inicial
                 x_jogador = 50
                 y_jogador = 160
 
@@ -661,7 +663,11 @@ while game:
                 y_oponente = 160
                 
                 mostrar_gol = 0
+
+                #placar atualizando
                 placar_texto = fonte.render(f"{contador_jogador} x {contador_oponente}", True, (255,255,255))
+
+        #ve se o jogador avanca ou perde o jogo
         if contador_oponente == 3 or contador_jogador == 3:
             if contador_jogador == 3:
                 rodada_chaves = rodada_chaves + 1
@@ -671,7 +677,10 @@ while game:
                 window.blit(teladerrota,(0,0))
                 perdeu = 1
         if perdeu == 0:
+            #coloca o placar atualizado na tela
             window.blit(placar_texto, (250, 10))
+
+    #Menu e suas funcionalidades
     if menu_aberto:
         overlay = pygame.Surface((600,300))
         overlay.set_alpha(180)
@@ -683,17 +692,19 @@ while game:
         window.blit(fonte.render(f"+            -", True, (255,255,255)), (200, 150))
         window.blit(fonte.render("Sair (ESC)", True, (255,255,255)), (200, 200))
 
+        #limita o volume maximo e minimo
         if volume < 0:
             volume = 0
         if volume > 1:
             volume = 1
 
+        #atualiza os volumes dos sons
         pygame.mixer.music.set_volume(volume)
         gol_som.set_volume(volume)
         vaia_som.set_volume(volume)
         chute_som.set_volume(volume)
            
-        
+        #vitoria 
     if tela_atual == "vitoria":
         window.blit(telavitoria,(0,0))
         
